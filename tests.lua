@@ -959,3 +959,139 @@ test(function()
   })
 end,
 --[[Expected = ]]true)
+
+test(function()
+  return huntable({
+    a = "1.0"
+  }, {
+    a = ">=1"
+  })
+end,
+--[[Expected = ]]true)
+
+test(function()
+  return huntable({
+    a = "1.0"
+  }, {
+    a = "=1"
+  })
+end,
+--[[Expected = ]]false)
+
+test(function()
+  return huntable({
+    a = "1.0"
+  }, {
+    a = "1"
+  })
+end,
+--[[Expected = ]]false)
+
+test(function()
+  return huntable({
+    a = "1.0"
+  }, {
+    a = "1.0"
+  })
+end,
+--[[Expected = ]]true)
+
+test(function()
+  return huntable({
+    a = "1.0"
+  }, {
+    a = "1.1"
+  })
+end,
+--[[Expected = ]]false)
+
+test(function()
+  return huntable({
+    a = "1.0"
+  }, {
+    a = "1.0"
+  }, {
+    b = "1.0"
+  })
+end,
+--[[Expected = ]]false)
+
+test(function()
+  return huntable({
+    a = "1.0"
+  }, {
+    a = "1.0"
+  }, {
+    a = "1.0"
+  })
+end,
+--[[Expected = ]]true)
+
+test(function()
+  return huntable({
+    a = "1.0"
+  }, {
+    a = "1.0"
+  }, "a")
+end,
+--[[Expected = ]]true)
+
+test(function()
+  return huntable({
+    a = "1.0"
+  }, {
+    a = "1.0"
+  }, "b")
+end,
+--[[Expected = ]]false)
+
+test(function()
+  return huntable({
+    a = "1.0"
+  }, {
+    a = "1.0"
+  }, "a", "b")
+end,
+--[[Expected = ]]false)
+
+test(function()
+  return huntable({
+    a = "1.0"
+  }, {
+    a = "1.0"
+  }, "a", "a", "a", "a", "a", "b")
+end,
+--[[Expected = ]]false)
+
+test(function()
+  return huntable({
+    a = "1.0"
+  }, {
+    a = "1.0"
+  }, "a", "a", "a", "a", "a", {
+    a = ">0"
+  })
+end,
+--[[Expected = ]]true)
+
+test(function()
+  return huntable({
+    a = "1.0"
+  }, {
+    a = "1.0"
+  }, "a", "a", "a", "a", "a", {
+    a = "=0"
+  })
+end,
+--[[Expected = ]]false)
+
+test(function()
+  return huntable({
+    a = "1.0"
+  }, {
+    a = "1.0"
+  }, "a", "a", "a", "a", "a", {
+    a = "=1"
+  })
+end,
+--[[Expected = ]]false)

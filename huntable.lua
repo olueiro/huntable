@@ -18,16 +18,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ]]
 
-return function(source, conditions)
+return function(source, ...)
+
+  local conditions = { ... }
 
   if type(source) ~= "table" then
     return false
-  end
-
-  if type(conditions) == nil then
-    return true
-  elseif type(conditions) ~= "table" then
-    conditions = {conditions}
   end
 
   -- Local functions
@@ -71,21 +67,29 @@ return function(source, conditions)
     end
     if string.find(s1, "^<=") then
       -- lower or equal
+      -- coertion
+      n2 = tonumber(n2)
       if n2 <= n1 then
         return true
       end
     elseif string.find(s1, "^<") then
       -- lower
+      -- coertion
+      n2 = tonumber(n2)
       if n2 < n1 then
         return true
       end
     elseif string.find(s1, "^>=") then
       -- greater or equal
+      -- coertion
+      n2 = tonumber(n2)
       if n2 >= n1 then
         return true
       end
     elseif string.find(s1, "^>") then
       -- greater
+      -- coertion
+      n2 = tonumber(n2)
       if n2 > n1 then
         return true
       end
@@ -138,90 +142,104 @@ return function(source, conditions)
 
   local continue = true
 
-  -- Array search
-
-  for _, value in ipairs(conditions) do
+  for _, condition in ipairs(conditions) do
     if not continue then
       break
     end
-    if type(value) == "table" then
-      -- If table: search following source structure
-      if not search_partials(value, source) then
-        continue = false
-      end
-    elseif type(value) == "string" then
-      -- If string: search key in all source
-      local results = {}
-      search_by_key(source, value, results, true)
-      if #results == 0 then
-        continue = false
-      end
+
+    if type(condition) == nil then
+      return true
+    elseif type(condition) ~= "table" then
+      condition = {condition}
     end
-  end
 
-  -- Associative array search
+    -- Array search
 
-  for key, value in pairs(conditions) do
-    if type(key) == "string" then
+    for _, value in ipairs(condition) do
       if not continue then
         break
       end
-      if type(value) ~= "table" then
-        value = {value}
-      end
-      local continue2 = false
-      for _, value2 in ipairs(value) do
-        if type(value2) == "number" then
-          -- If number: search key and value in all source
-          local results = {}
-          search_by_key(source, key, results, true)
-          for _, value3 in ipairs(results) do
-            if value3 == value2 then
-              continue2 = true
-              break
-            end
-          end
-        elseif type(value2) == "string" then
-          -- If string: search key and value in all source
-          -- if source value is a number do a number comparison
-          -- if source value is a string do a string comparison
-          local results = {}
-          search_by_key(source, key, results, true)
-          for _, value3 in ipairs(results) do
-            if type(value3) == "string" then
-              if str(value2, value3) then
-                continue2 = true
-                break
-              end
-            elseif type(value3) == "number" then
-              if num(value2, value3) then
-                continue2 = true
-                break
-              end
-            end
-          end
-        elseif type(value2) == "boolean" then
-          -- If boolean: compare value and types
-          local results = {}
-          search_by_key(source, key, results, true)
-          for _, value3 in ipairs(results) do
-            if type(value3) == "boolean" and value2 == value3 then
-              continue2 = true
-              break
-            end
-          end
-        elseif type(value2) == "function" then
-          -- If function: execute function passing key, value and source, returns true to pass
-          local results = {}
-          search_by_key(source, key, results, true)
-          continue2 = value2(key, results, source) == true
-          if continue2 then
-            break
-          end
+      if type(value) == "table" then
+        -- If table: search following source structure
+        if not search_partials(value, source) then
+          continue = false
+        end
+      elseif type(value) == "string" then
+        -- If string: search key in all source
+        local results = {}
+        search_by_key(source, value, results, true)
+        if #results == 0 then
+          continue = false
         end
       end
-      continue = continue2
     end
+
+    -- Associative array search
+
+    for key, value in pairs(condition) do
+      if type(key) == "string" then
+        if not continue then
+          break
+        end
+        if type(value) ~= "table" then
+          value = {value}
+        end
+        local continue2 = false
+        for _, value2 in ipairs(value) do
+          if type(value2) == "number" then
+            -- If number: search key and value in all source
+            local results = {}
+            search_by_key(source, key, results, true)
+            for _, value3 in ipairs(results) do
+              if value3 == value2 then
+                continue2 = true
+                break
+              end
+            end
+          elseif type(value2) == "string" then
+            -- If string: search key and value in all source
+            -- if source value is a number do a number comparison
+            -- if source value is a string do a string comparison
+            local results = {}
+            search_by_key(source, key, results, true)
+            for _, value3 in ipairs(results) do
+              if type(value3) == "number" or tonumber(value3) then
+                if num(value2, value3) then
+                  continue2 = true
+                  break
+                end
+              end
+              if type(value3) == "string" then
+                if str(value2, value3) then
+                  continue2 = true
+                  break
+                end
+              end
+            end
+          elseif type(value2) == "boolean" then
+            -- If boolean: compare value and types
+            local results = {}
+            search_by_key(source, key, results, true)
+            for _, value3 in ipairs(results) do
+              if type(value3) == "boolean" and value2 == value3 then
+                continue2 = true
+                break
+              end
+            end
+          elseif type(value2) == "function" then
+            -- If function: execute function passing key, value and source, returns true to pass
+            local results = {}
+            search_by_key(source, key, results, true)
+            continue2 = value2(key, results, source) == true
+            if continue2 then
+              break
+            end
+          end
+        end
+        continue = continue2
+      end
+    end
+
   end
 
   return continue
