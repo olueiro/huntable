@@ -743,11 +743,12 @@ test(function()
     },
     f = "ghi"
   }, {
-    d = function(k, r, s)
-      for _, v in ipairs(r) do
-        if v == true then
-          return true
-        end
+    d = function(k, v, s)
+      if k ~= "d" then
+        return false
+      end
+      if v == true then
+        return true
       end
       return false
     end
@@ -767,11 +768,9 @@ test(function()
     },
     f = "ghi"
   }, {
-    d = function(k, r, s)
-      for _, v in ipairs(r) do
-        if v == "abc" then
-          return true
-        end
+    d = function(k, v, s)
+      if v == "abc" then
+        return true
       end
       return false
     end
@@ -791,11 +790,9 @@ test(function()
     },
     f = "ghi"
   }, {
-    d = function(k, r, s)
-      for _, v in ipairs(r) do
-        if v == "abc" then
-          return true
-        end
+    d = function(k, v, s)
+      if v == "abc" then
+        return true
       end
       return false
     end,
@@ -817,10 +814,8 @@ test(function()
     f = "ghi"
   }, {
     d = function(k, r, s)
-      for _, v in ipairs(r) do
-        if v == "abc" then
-          return true
-        end
+      if v == "abc" then
+        return true
       end
       return false
     end,
@@ -841,11 +836,9 @@ test(function()
     },
     f = "ghi"
   }, {
-    d = function(k, r, s)
-      for _, v in ipairs(r) do
-        if v == "ghi" then
-          return true
-        end
+    d = function(k, v, s)
+      if v == "ghi" then
+        return true
       end
       return false
     end
@@ -1095,3 +1088,28 @@ test(function()
   })
 end,
 --[[Expected = ]]false)
+
+test(function()
+  return huntable({
+    a = {
+      b = {
+        c = {
+          d = "abc"
+        }
+      },
+      d = "def"
+    },
+    d = "ghi"
+  }, {
+    d = function(k, v, s)
+      if k ~= "d" then
+        return false
+      end
+      if v == "def" then
+        return true
+      end
+      return false
+    end
+  })
+end,
+--[[Expected = ]]true)

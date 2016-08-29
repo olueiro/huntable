@@ -230,7 +230,12 @@ return function(source, ...)
             -- If function: execute function passing key, value and source, returns true to pass
             local results = {}
             search_by_key(source, key, results, true)
-            continue2 = value2(key, results, source) == true
+            for _, value3 in ipairs(results) do
+              continue2 = value2(key, value3, source) == true
+              if continue2 then
+                break
+              end
+            end
             if continue2 then
               break
             end
