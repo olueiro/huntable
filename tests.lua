@@ -813,7 +813,7 @@ test(function()
     },
     f = "ghi"
   }, {
-    d = function(k, r, s)
+    d = function(k, v, s)
       if v == "abc" then
         return true
       end
