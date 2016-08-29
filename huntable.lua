@@ -67,28 +67,28 @@ return function(source, ...)
     end
     if string.find(s1, "^<=") then
       -- lower or equal
-      -- coertion
+      -- coercion
       n2 = tonumber(n2)
       if n2 <= n1 then
         return true
       end
     elseif string.find(s1, "^<") then
       -- lower
-      -- coertion
+      -- coercion
       n2 = tonumber(n2)
       if n2 < n1 then
         return true
       end
     elseif string.find(s1, "^>=") then
       -- greater or equal
-      -- coertion
+      -- coercion
       n2 = tonumber(n2)
       if n2 >= n1 then
         return true
       end
     elseif string.find(s1, "^>") then
       -- greater
-      -- coertion
+      -- coercion
       n2 = tonumber(n2)
       if n2 > n1 then
         return true
