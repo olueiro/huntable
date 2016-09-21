@@ -1,13 +1,6 @@
 # huntable
 Comparator function for tables with dynamic values
 
-## Usage
-
-`huntable(source[, condition1[, condition2[, ...]]])`
-* `source` Table to lookup;
-   - if `source` is nil, function returns false;
-* `condition1` ... `conditionN` Table with conditions to check;
-
 ## Installation
 
 1. Install via [LuaRocks](http://luarocks.org):
@@ -16,9 +9,14 @@ Comparator function for tables with dynamic values
 
 2. [Download](https://github.com/olueiro/huntable/archive/master.zip) and extract inside your project
 
-
-
    `local huntable = require("huntable")`
+
+## Usage
+
+`huntable(source[, condition1[, condition2[, ...]]])`
+* `source` Table to lookup;
+   - if `source` is nil, function returns false;
+* `condition1` ... `conditionN` Table with conditions to check;
 
 ## Sample
 
