@@ -5,7 +5,7 @@ Comparator function for tables with dynamic values
 
 `huntable(source[, condition1[, condition2[, ...]]])`
 * `source` Table to lookup;
-   - if `source` is nil, function returns nil too;
+   - if `source` is nil, function returns false;
 * `condition1` ... `conditionN` Table with conditions to check;
 
 ## Installation
