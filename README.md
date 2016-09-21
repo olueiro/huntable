@@ -43,6 +43,7 @@ local source = {
 huntable(source, {"level1_A"}) -- returns true, a key named 'level1_A' exists in source
 huntable(source, {"level2_A"}) -- returns true, a key named 'level2_A' exists in source
 huntable(source, {"level1_Z"}) -- returns false, a key named 'level1_Z' not exists in source
+huntable(source, {"level2_A", "level1_B"}) -- returns true, a key named 'level2_A' exists in source AND a key named 'level1_B' exists in source
 huntable(source, {level2_A = 1}) -- returns true, a key named 'level2_A' exists in source AND value is integer 1
 huntable(source, {level2_A = "sample_C"}) -- returns true, a key named 'level2_A' exists in source AND value is string "sample_C"
 huntable(source, {level1_B = "sample_B"}) -- returns true, a key named 'level1_B' exists in source AND value is string "sample_B"
@@ -69,6 +70,7 @@ huntable(source, {level2_A = function(key, value, source) if value == "sample_C"
 huntable(source, {{level1_B = "sample_B"}}) -- returns true, a key named 'level1_B' exists in source on root (structured mode - all levels are preserved)
 huntable(source, {{level1_A = {}}}) -- returns true, a key named 'level1_A' exists in source  on root (structured mode - all levels are preserved) ANd is a table
 huntable(source, {{level1_A = {level2_Z = 1}}}) -- returns false, a key named 'level1_A' exists in source on root (structured mode - all levels are preserved) AND is a table ANd not contains a key named 'level2_Z'
+huntable(source, {"level2_A"}, {"level1_B"}) -- returns true, a key named 'level2_A' exists in source; a key named 'level1_B' exists in source
 ```
 
 ## License
