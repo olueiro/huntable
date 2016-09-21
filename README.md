@@ -14,7 +14,8 @@ Comparator function for tables with dynamic values
 
    `$ sudo luarocks install huntable`
 
-2. [Download](https://github.com/olueiro/huntable/archive/master.zip) and extract inside your project and `require`:
+2. [Download](https://github.com/olueiro/huntable/archive/master.zip) and extract inside your project
+
 
    `local huntable = require("huntable")`
 
