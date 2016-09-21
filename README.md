@@ -12,9 +12,10 @@ Comparator function for tables with dynamic values
 
 1. Install via [LuaRocks](http://luarocks.org):
 
-   `$ sudo luarocks install huntable`
+   `$ luarocks install huntable`
 
 2. [Download](https://github.com/olueiro/huntable/archive/master.zip) and extract inside your project
+
 
 
    `local huntable = require("huntable")`
