@@ -40,6 +40,7 @@ local source = {
   }
 }
 
+huntable(source) -- returns true, 'source' is valid
 huntable(source, {"level1_A"}) -- returns true, a key named 'level1_A' exists in source
 huntable(source, {"level2_A"}) -- returns true, a key named 'level2_A' exists in source
 huntable(source, {"level1_Z"}) -- returns false, a key named 'level1_Z' not exists in source
